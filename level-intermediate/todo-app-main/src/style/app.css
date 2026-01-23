@@ -1,0 +1,73 @@
+:root {
+    --font-family: "Josefin Sans", sans-serif;
+
+    --primary-blue-500: hsl(220, 98%, 61%);
+    --primary-check-bg: linear-gradient hsl(192, 100%, 67%) to hsl(280, 87%, 65%);
+
+    /* Light theme */
+    --light-gray-50: hsl(0, 0%, 98%);
+    --light-purple-300: hsl(234, 39%, 85%);
+    --light-Gray-300: hsl(233, 11%, 84%);
+    --ligth-Gray-600: hsl(236, 9%, 61%);
+    --light-Navy-850: hsl(235, 19%, 35%);
+
+    /* Dark Theme */
+    --dark-Navy-950: hsl(235, 21%, 11%);
+    --dark-Navy-900: hsl(235, 24%, 19%);
+    --dark-Purple-300: hsl(234, 39%, 85%);
+    --dark-Purple-100-hover: hsl(236, 33%, 92%);
+    --dark-Purple-600: hsl(235, 16%, 43%);
+    --dark-Purple-700: hsl(233, 14%, 35%);
+    --dark-Purple-800: hsl(237, 14%, 26%);
+    -dark-Gray-600: hsl(236, 9%, 61%);
+
+
+    --fs-xs: clamp(0.75rem, 2vw, 0.875rem);
+    /* 12px - 14px */
+    --fs-sm: clamp(0.875rem, 2.2vw, 1rem);
+    /* 14px - 16px */
+    --fs-base: clamp(1rem, 2.5vw, 1.125rem);
+    /* 16px - 18px */
+    --fs-md: clamp(1.125rem, 3vw, 1.5rem);
+    /* 18px - 24px */
+    --fs-lg: clamp(1.5rem, 4vw, 2.25rem);
+    /* 24px - 36px */
+    --fs-xl: clamp(2rem, 5vw, 3rem);
+    /* 32px - 48px */
+    --fs-2xl: clamp(2.5rem, 6vw, 3.75rem);
+    /* 40px - 60px */
+    --fs-3xl: clamp(3rem, 8vw, 4.5rem);
+    /* 48px - 72px */
+
+    /* Spacing scale (margin/padding/gap) */
+    --space-xs: clamp(0.5rem, 0.8vw, 0.75rem);
+    --space-sm: clamp(1rem, 1.2vw, 1.25rem);
+    --space-md: clamp(1.5rem, 2vw, 2rem);
+    --space-lg: clamp(2rem, 3vw, 3rem);
+    --space-xl: clamp(3rem, 4vw, 4rem);
+    --space-2xl: clamp(4rem, 6vw, 6rem);
+
+
+    --max-container: 1200px;
+    --max-container-wide: 1440px;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+
+html,
+body {
+    font-family: var(--font-family);
+    line-height: 2;
+    color: white;
+    scroll-behavior: smooth;
+}
+
+body {
+    min-height: 100vh;
+    font-size: var(--fs-base);
+}
