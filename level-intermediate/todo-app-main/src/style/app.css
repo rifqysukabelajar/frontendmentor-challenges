@@ -4,11 +4,11 @@
     --primary-blue-500: hsl(220, 98%, 61%);
     --primary-check-bg: linear-gradient hsl(192, 100%, 67%) to hsl(280, 87%, 65%);
 
-    /* Light theme */
+    /* light theme */
     --light-gray-50: hsl(0, 0%, 98%);
     --light-purple-300: hsl(234, 39%, 85%);
     --light-Gray-300: hsl(233, 11%, 84%);
-    --ligth-Gray-600: hsl(236, 9%, 61%);
+    --light-Gray-600: hsl(236, 9%, 61%);
     --light-Navy-850: hsl(235, 19%, 35%);
 
     /* Dark Theme */
@@ -19,7 +19,7 @@
     --dark-Purple-600: hsl(235, 16%, 43%);
     --dark-Purple-700: hsl(233, 14%, 35%);
     --dark-Purple-800: hsl(237, 14%, 26%);
-    -dark-Gray-600: hsl(236, 9%, 61%);
+    --dark-Gray-600: hsl(236, 9%, 61%);
 
 
     --fs-xs: clamp(0.75rem, 2vw, 0.875rem);
@@ -58,16 +58,197 @@
     padding: 0;
 }
 
+input {
+    font-size: var(--fs-base);
+    color: var(--light-Navy-850);
+    border: none;
+}
+
+input:focus {
+    outline: none;
+}
 
 html,
 body {
     font-family: var(--font-family);
     line-height: 2;
-    color: white;
+    color: var(--light-Gray-600);
     scroll-behavior: smooth;
 }
 
 body {
     min-height: 100vh;
     font-size: var(--fs-base);
+    background-color: var(--light-gray-50);
+}
+
+/* pas mode light */
+body:not(.dark) input:-webkit-autofill,
+body:not(.dark) input:-webkit-autofill:hover,
+body:not(.dark) input:-webkit-autofill:focus {
+    -webkit-text-fill-color: var(--light-Navy-850) !important;
+    -webkit-box-shadow: 0 0 0 1000px #fff inset !important;
+    caret-color: var(--light-Navy-850);
+    transition: background-color 9999s ease-in-out 0s;
+}
+
+main {
+    background: url('../assets/images/bg-mobile-light.jpg') center top / cover no-repeat;
+    width: 100%;
+    height: 20vh;
+    min-height: 200px;
+}
+
+.todo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.todo-card {
+    width: 100%;
+    padding: 2rem 1.75rem;
+}
+
+.todo-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1.25rem;
+}
+
+.todo-title {
+    font-size: var(--fs-lg);
+    color: var(--light-gray-50);
+    text-transform: uppercase;
+    letter-spacing: 0.75rem;
+}
+
+.icon-sun {
+    display: none;
+}
+
+.btn__switch-mode {
+    border: none;
+    background: none;
+    transition: all .25s ease-in-out;
+    cursor: pointer;
+}
+
+.icon {
+    width: 100%;
+    max-width: 22px;
+}
+
+body.dark {
+    transition: background-color 0.15s ease-in-out;
+    background-color: var(--dark-Navy-950);
+    color: white;
+}
+
+body.dark main {
+    background: url('../assets/images/bg-mobile-dark.jpg') center top / cover no-repeat;
+}
+
+body.dark .icon-sun {
+    display: inline-block;
+}
+
+body.dark .icon-moon {
+    display: none;
+}
+
+.todo-group {
+    background-color: white;
+    padding: .5rem var(--space-md);
+    border-radius: .35rem;
+}
+
+body.dark .todo-group,
+body.dark input,
+body.dark li,
+body.dark .todo-footer {
+    color: var(--dark-Purple-300);
+    background-color: var(--dark-Navy-900);
+    transition: all 0.15s ease-in-out;
+}
+
+/* ketika autocomplete color dan bg bisa sama dengan todo-group */
+body.dark input:-webkit-autofill,
+body.dark input:-webkit-autofill:hover,
+body.dark input:-webkit-autofill:focus {
+    -webkit-text-fill-color: var(--light-Gray-600);
+    -webkit-box-shadow: 0 0 0 1000px #25273c inset;
+    caret-color: var(--light-Gray-600);
+    transition: background-color 9999s ease-in-out 0s;
+}
+
+
+body.dark li {
+    color: var(--dark-Purple-300);
+    border-bottom: 1px solid var(--dark-Purple-800);
+}
+
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+.todo-list {
+    margin-top: 1.5rem;
+    list-style: none;
+}
+
+li {
+    color: var(--light-Navy-850);
+    background-color: white;
+    padding: .65rem var(--space-md);
+    border-bottom: 1px solid var(--light-Gray-300);
+}
+
+li:first-child {
+    border-top-left-radius: .35rem;
+    border-top-right-radius: .35rem;
+}
+
+
+.todo-main {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+}
+
+.todo-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: var(--fs-sm);
+    padding: .65rem var(--space-md);
+    box-shadow: 0 14px 24px rgba(0, 0, 0, 0.15);
+    border-bottom-left-radius: .35rem;
+    border-bottom-right-radius: .35rem;
+}
+
+.btn__clear-completed {
+    font-family: var(--font-family);
+    background: none;
+    border: none;
+    color: var(--light-Gray-600);
+    cursor: pointer;
+}
+
+.completed {
+    text-decoration: line-through;
+    color: var(--light-Gray-300);
+}
+
+body.dark .completed {
+    color: var(--dark-Purple-600);
 }
