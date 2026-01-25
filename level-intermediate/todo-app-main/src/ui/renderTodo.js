@@ -12,13 +12,22 @@ export function renderTodo(todos) {
     checkbox.type = "checkbox";
     checkbox.classList.add("todo-checkbox");
 
+    const imgDelete = document.createElement('img')
+    imgDelete.classList.add('icon', 'icon-delete')
+    imgDelete.src = './assets/icons/icon-cross.svg'
+    imgDelete.alt = 'Delete todo'
+
+    const deleteButton = document.createElement('button')
+    deleteButton.classList.add('btn', 'btn__delete')
+    deleteButton.appendChild(imgDelete)
+
     const span = document.createElement("span");
-    span.textContent = valueTodo;
     span.dataset.id = id;
+    span.textContent = valueTodo;
     span.classList.add("todo-text");
 
     div.append(checkbox, span);
-    li.appendChild(div);
+    li.append(div, deleteButton);
     list.appendChild(li);
   });
 }

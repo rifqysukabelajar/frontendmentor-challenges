@@ -7,8 +7,10 @@ let footerEl = null;
 export const initTodo = function () {
   const form = document.querySelector(".todo-form");
   const inputTodo = document.querySelector("#todo-input");
-  
-  completedTodo();
+  const todoList = document.querySelector(".todo-list");
+
+  completedTodo(todoList);
+  deleteTodo(todoList);
 
   form.addEventListener("submit", (e) => {
     e.preventDefault();
@@ -43,6 +45,34 @@ function addTodo(valueTodo) {
   updateTodoCount(todos);
 }
 
+function deleteTodo(todoList) {
+  todoList.addEventListener("click", (e) => {
+    const btn = e.target.closest("button");
+    if (!btn || !btn.classList.contains("btn__delete")) return;
+
+    const li = btn.closest("li");
+    if (!li) return;
+    
+    const span = li.querySelector("span[data-id]");
+    if (!span) return;
+
+    const id = Number(span.dataset.id);
+    
+    const index = todos.findIndex((todo) => todo.id === id);
+    if (index !== -1) {
+      todos.splice(index, 1);
+    }
+
+    li.remove();
+    updateTodoCount(todos);
+
+    if (todos.length === 0 && footerEl) {
+      footerEl.remove();
+      footerEl = null;
+    }
+  });
+}
+
 function createFooter() {
   footerEl = document.createElement("div");
   footerEl.classList.add("todo-footer");
@@ -66,8 +96,8 @@ function updateTodoCount(todos) {
   countEl.textContent = `${todos.length} items left`;
 }
 
-function completedTodo() {
-  document.querySelector(".todo-list").addEventListener("click", (e) => {
+function completedTodo(todoList) {
+  todoList.addEventListener("click", (e) => {
     const li = e.target.closest("li");
     if (!li) return;
 

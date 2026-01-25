@@ -82,7 +82,7 @@ body {
     background-color: var(--light-gray-50);
 }
 
-/* pas mode light */
+
 body:not(.dark) input:-webkit-autofill,
 body:not(.dark) input:-webkit-autofill:hover,
 body:not(.dark) input:-webkit-autofill:focus {
@@ -158,11 +158,6 @@ body.dark .icon-moon {
     display: none;
 }
 
-.todo-group {
-    background-color: white;
-    padding: .5rem var(--space-md);
-    border-radius: .35rem;
-}
 
 body.dark .todo-group,
 body.dark input,
@@ -189,6 +184,12 @@ body.dark li {
     border-bottom: 1px solid var(--dark-Purple-800);
 }
 
+#todo-input {
+    width: 100%;
+    padding: var(--space-sm) var(--space-md);
+    border-radius: .35rem;
+}
+
 .sr-only {
     position: absolute;
     width: 1px;
@@ -206,11 +207,21 @@ body.dark li {
     list-style: none;
 }
 
+.todo-main {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+}
+
 li {
     color: var(--light-Navy-850);
     background-color: white;
-    padding: .65rem var(--space-md);
+    padding: var(--space-xs) var(--space-md);
     border-bottom: 1px solid var(--light-Gray-300);
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 li:first-child {
@@ -225,22 +236,36 @@ li:first-child {
     gap: var(--space-sm);
 }
 
+.btn__delete {
+    background: none;
+    border: none;
+}
+
+.icon-delete {
+    width: 100%;
+    max-width: 12px;
+}
+
 .todo-footer {
     display: flex;
     justify-content: space-between;
     align-items: center;
     font-size: var(--fs-sm);
     padding: .65rem var(--space-md);
-    box-shadow: 0 14px 24px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
     border-bottom-left-radius: .35rem;
     border-bottom-right-radius: .35rem;
+}
+
+.todo-count,
+.btn__clear-completed {
+    color: var(--light-Gray-600);
 }
 
 .btn__clear-completed {
     font-family: var(--font-family);
     background: none;
     border: none;
-    color: var(--light-Gray-600);
     cursor: pointer;
 }
 
