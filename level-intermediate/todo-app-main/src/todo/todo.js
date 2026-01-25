@@ -34,6 +34,7 @@ function addTodo(valueTodo) {
   const todo = {
     id: currentId++,
     valueTodo,
+    completed: false,
   };
 
   todos.push(todo);
@@ -52,12 +53,12 @@ function deleteTodo(todoList) {
 
     const li = btn.closest("li");
     if (!li) return;
-    
+
     const span = li.querySelector("span[data-id]");
     if (!span) return;
 
     const id = Number(span.dataset.id);
-    
+
     const index = todos.findIndex((todo) => todo.id === id);
     if (index !== -1) {
       todos.splice(index, 1);
@@ -87,6 +88,8 @@ function createFooter() {
 
   footerEl.append(span, button);
   document.querySelector(".todo-list").after(footerEl);
+
+  footerEl.addEventListener("click", clearCompletedTodo);
 }
 
 function updateTodoCount(todos) {
@@ -97,13 +100,43 @@ function updateTodoCount(todos) {
 }
 
 function completedTodo(todoList) {
-  todoList.addEventListener("click", (e) => {
-    const li = e.target.closest("li");
+  todoList.addEventListener("change", (e) => {
+    const checkbox = e.target;
+    if (!checkbox.classList.contains("todo-checkbox")) return;
+
+    const li = checkbox.closest("li");
     if (!li) return;
 
-    const checkbox = e.target.closest(".todo-checkbox");
-    if (!checkbox) return;
+    const span = li.querySelector("span[data-id]");
+    if (!span) return;
 
-    li.classList.toggle("completed", checkbox.checked);
+    const id = Number(span.dataset.id);
+    const todo = todos.find((todo) => todo.id === id);
+    if (!todo) return;
+
+    todo.completed = checkbox.checked;
+
+    li.classList.toggle("completed", todo.completed);
   });
+}
+
+function clearCompletedTodo(e) {
+  const btn = e.target.closest(".btn__clear-completed");
+  if (!btn) return;
+
+  for (let i = todos.length - 1; i >= 0; i--) {
+    if (todos[i].completed) {
+      todos.splice(i, 1);
+      console.log(todos[i]);
+    }
+  }
+
+  updateTodoCount(todos);
+
+  if (todos.length === 0 && footerEl) {
+    footerEl.remove();
+    footerEl = null;
+  }
+
+  renderTodo(todos);
 }
