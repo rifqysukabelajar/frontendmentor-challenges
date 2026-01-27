@@ -4,6 +4,7 @@ export function renderTodo(todos) {
 
   todos.forEach(({ id, valueTodo }) => {
     const li = document.createElement("li");
+    li.classList.add('surface')
 
     const div = document.createElement("div");
     div.classList.add("todo-main");
