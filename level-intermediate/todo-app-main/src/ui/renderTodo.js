@@ -1,3 +1,5 @@
+import { ASSET_PATH } from '../main.js';
+
 export function renderTodo(todos) {
   const list = document.querySelector(".todo-list");
   list.innerHTML = "";
@@ -15,8 +17,11 @@ export function renderTodo(todos) {
 
     const imgDelete = document.createElement("img");
     imgDelete.classList.add("icon", "icon-delete");
-    imgDelete.src = "./assets/icons/icon-cross.svg";
+    imgDelete.src = `${ASSET_PATH}/icons/icon-cross.svg`;
     imgDelete.alt = "Delete todo";
+    imgDelete.width = 13.5;
+    imgDelete.height = 13.5;
+    imgDelete.setAttribute("aria-hidden", "true");
 
     const deleteButton = document.createElement("button");
     deleteButton.classList.add("btn", "btn__delete");
