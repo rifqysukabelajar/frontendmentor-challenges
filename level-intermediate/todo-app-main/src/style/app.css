@@ -85,6 +85,12 @@ button {
     cursor: pointer;
 }
 
+/* keyboard user kebantu */
+button:focus-visible {
+  outline: 2px solid var(--primary-blue-500);
+  outline-offset: 2px;
+}
+
 html,
 body {
     font-family: var(--font-family);
@@ -299,11 +305,11 @@ body.dark .todo-list li {
 
 .todo-list .completed {
     text-decoration: line-through;
-    color: var(--color-border);
+    color: var(--color-text);
 }
 
 body.dark .todo-list .completed {
-    color: var(--color-border);
+    color: var(--color-text);
 }
 
 .todo-filters,

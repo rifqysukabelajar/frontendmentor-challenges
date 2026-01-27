@@ -24,7 +24,6 @@ export const initTodo = function () {
     addTodo(valueTodo);
     renderTodo(todos);
     console.log(document.body);
-    
 
     inputTodo.value = "";
   });
@@ -80,8 +79,8 @@ function createFooter() {
   footerEl = document.createElement("footer");
   footerEl.classList.add("todo-footer");
 
-  const todoFooterActions = document.createElement('div')
-  todoFooterActions.classList.add('todo-footer__actions', 'surface')
+  const todoFooterActions = document.createElement("div");
+  todoFooterActions.classList.add("todo-footer__actions", "surface");
 
   const todoCount = document.createElement("span");
   todoCount.classList.add("todo-count");
@@ -89,34 +88,37 @@ function createFooter() {
 
   const btnClearCompleted = document.createElement("button");
   btnClearCompleted.classList.add("btn__clear-completed");
+  btnClearCompleted.setAttribute(
+    "aria-label",
+    "Clear all completed todo items",
+  );
   btnClearCompleted.textContent = "Clear Completed";
 
   const todoFilters = document.createElement("ul");
   todoFilters.classList.add("todo-filters", "surface");
 
-  const all = document.createElement('li')
-  all.classList.add('surface')
-  const btnAll = document.createElement('button')
-  btnAll.textContent = 'All'
+  const all = document.createElement("li");
+  all.classList.add("surface");
+  const btnAll = document.createElement("button");
+  btnAll.textContent = "All";
 
-  const active = document.createElement('li')
-  active.classList.add('surface')
-  const btnActive = document.createElement('button')
-  btnActive.textContent = 'Active'
+  const active = document.createElement("li");
+  active.classList.add("surface");
+  const btnActive = document.createElement("button");
+  btnActive.textContent = "Active";
 
-  const completed = document.createElement('li')
-  completed.classList.add('surface')
-  const btnCompleted = document.createElement('button')
-  btnCompleted.textContent = 'Completed'
+  const completed = document.createElement("li");
+  completed.classList.add("surface");
+  const btnCompleted = document.createElement("button");
+  btnCompleted.textContent = "Completed";
 
+  all.appendChild(btnAll);
+  active.appendChild(btnActive);
+  completed.appendChild(btnCompleted);
 
-  all.appendChild(btnAll)
-  active.appendChild(btnActive)
-  completed.appendChild(btnCompleted)
-
-  todoFilters.append(all, active, completed)
+  todoFilters.append(all, active, completed);
   todoFooterActions.append(todoCount, btnClearCompleted);
-  footerEl.append(todoFooterActions, todoFilters)
+  footerEl.append(todoFooterActions, todoFilters);
 
   document.querySelector(".todo-list").after(footerEl);
   btnClearCompleted.addEventListener("click", clearCompletedTodo);
@@ -154,10 +156,10 @@ function clearCompletedTodo(e) {
   const btn = e.target.closest(".btn__clear-completed");
   if (!btn) return;
 
-  const hasCompleted = todos.some(todo => todo.completed);
+  const hasCompleted = todos.some((todo) => todo.completed);
   if (!hasCompleted) {
-    alert("Belum ada todo yang statusnya completed")
-    return
+    alert("Belum ada todo yang statusnya completed");
+    return;
   }
 
   for (let i = todos.length - 1; i >= 0; i--) {

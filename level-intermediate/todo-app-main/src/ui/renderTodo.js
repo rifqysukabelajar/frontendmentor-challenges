@@ -4,7 +4,7 @@ export function renderTodo(todos) {
 
   todos.forEach(({ id, valueTodo }) => {
     const li = document.createElement("li");
-    li.classList.add('surface')
+    li.classList.add("surface");
 
     const div = document.createElement("div");
     div.classList.add("todo-main");
@@ -13,14 +13,15 @@ export function renderTodo(todos) {
     checkbox.type = "checkbox";
     checkbox.classList.add("todo-checkbox");
 
-    const imgDelete = document.createElement('img')
-    imgDelete.classList.add('icon', 'icon-delete')
-    imgDelete.src = './assets/icons/icon-cross.svg'
-    imgDelete.alt = 'Delete todo'
+    const imgDelete = document.createElement("img");
+    imgDelete.classList.add("icon", "icon-delete");
+    imgDelete.src = "./assets/icons/icon-cross.svg";
+    imgDelete.alt = "Delete todo";
 
-    const deleteButton = document.createElement('button')
-    deleteButton.classList.add('btn', 'btn__delete')
-    deleteButton.appendChild(imgDelete)
+    const deleteButton = document.createElement("button");
+    deleteButton.classList.add("btn", "btn__delete");
+    deleteButton.setAttribute("aria-label", "Delete todo item");
+    deleteButton.appendChild(imgDelete);
 
     const span = document.createElement("span");
     span.dataset.id = id;
