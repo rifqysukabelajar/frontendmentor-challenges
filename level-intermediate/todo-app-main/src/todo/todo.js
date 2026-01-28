@@ -6,33 +6,43 @@ let footerEl = null;
 let currentFilter = "all";
 
 export const initTodo = function () {
-  const form = document.querySelector(".todo-form");
-  const inputTodo = document.querySelector("#todo-input");
-  const todoList = document.querySelector(".todo-list");
+  const { form, input, list } = getTodoElements();
 
-  completedTodo(todoList);
-  deleteTodo(todoList);
+  completedTodo(list);
+  deleteTodo(list);
 
-  form.addEventListener("submit", (e) => {
-    e.preventDefault();
-
-    const valueTodo = inputTodo.value.trim();
-    if (!valueTodo) {
-      inputTodo.focus();
-      return alert("Input tidak boleh kosong!");
-    }
-
-    addTodo(valueTodo);
-    renderTodo(todos);
-    console.log(document.body);
-
-    inputTodo.value = "";
-  });
+  form.addEventListener("submit", (e) => handleSubmit(e, input));
 };
 
-function addTodo(valueTodo) {
-  if (!valueTodo.trim()) return;
+function getTodoElements() {
+  return {
+    form: document.querySelector(".todo-form"),
+    input: document.querySelector("#todo-input"),
+    list: document.querySelector(".todo-list"),
+  };
+}
 
+function handleSubmit(e, input) {
+  e.preventDefault();
+  handleAddTodo(input, () => renderTodo(todos))
+}
+
+function handleAddTodo(input, onSuccess) {
+  const value = input.value.trim();
+  if (!value) {
+    input.focus();
+    alert("Input tidak boleh kosong!");
+    return;
+  }
+
+  addTodo(value);
+  input.value = "";
+
+  if (onSuccess) onSuccess(); 
+}
+
+
+function addTodo(valueTodo) {
   const todo = {
     id: currentId++,
     valueTodo,
