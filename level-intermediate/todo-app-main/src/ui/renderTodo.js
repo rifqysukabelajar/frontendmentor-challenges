@@ -4,16 +4,22 @@ export function renderTodo(todos) {
   const list = document.querySelector(".todo-list");
   list.innerHTML = "";
 
-  todos.forEach(({ id, valueTodo }) => {
+  todos.forEach(({ id, valueTodo, completed }) => {
     const li = document.createElement("li");
     li.classList.add("surface");
 
     const div = document.createElement("div");
     div.classList.add("todo-main");
 
+    const span = document.createElement("span");
+    span.dataset.id = id;
+    span.textContent = valueTodo;
+    span.classList.add("todo-text");
+
     const checkbox = document.createElement("input");
     checkbox.type = "checkbox";
     checkbox.classList.add("todo-checkbox");
+    checkbox.checked = completed
 
     const imgDelete = document.createElement("img");
     imgDelete.classList.add("icon", "icon-delete");
@@ -28,13 +34,11 @@ export function renderTodo(todos) {
     deleteButton.setAttribute("aria-label", "Delete todo item");
     deleteButton.appendChild(imgDelete);
 
-    const span = document.createElement("span");
-    span.dataset.id = id;
-    span.textContent = valueTodo;
-    span.classList.add("todo-text");
 
     div.append(checkbox, span);
     li.append(div, deleteButton);
+
+    li.classList.toggle("completed", completed);
     list.appendChild(li);
   });
 }

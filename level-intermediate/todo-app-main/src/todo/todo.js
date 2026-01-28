@@ -3,6 +3,7 @@ import { renderTodo } from "../ui/renderTodo.js";
 const todos = [];
 let currentId = 1;
 let footerEl = null;
+let currentFilter = "all";
 
 export const initTodo = function () {
   const form = document.querySelector(".todo-form");
@@ -44,7 +45,7 @@ function addTodo(valueTodo) {
     createFooter();
   }
 
-  updateTodoCount(todos);
+  updateTodoCount();
 }
 
 function deleteTodo(todoList) {
@@ -66,7 +67,7 @@ function deleteTodo(todoList) {
     }
 
     li.remove();
-    updateTodoCount(todos);
+    updateTodoCount();
 
     if (todos.length === 0 && footerEl) {
       footerEl.remove();
@@ -97,26 +98,24 @@ function createFooter() {
   const todoFilters = document.createElement("ul");
   todoFilters.classList.add("todo-filters", "surface");
 
-  const all = document.createElement("li");
-  all.classList.add("surface");
-  const btnAll = document.createElement("button");
-  btnAll.textContent = "All";
+  const filters = [
+    { name: "All", value: "all" },
+    { name: "Active", value: "active" },
+    { name: "Completed", value: "completed" },
+  ];
 
-  const active = document.createElement("li");
-  active.classList.add("surface");
-  const btnActive = document.createElement("button");
-  btnActive.textContent = "Active";
+  filters.forEach(({ name, value }) => {
+    const li = document.createElement("li");
+    const btn = document.createElement("button");
+    btn.classList.add(`filter-${value}`, "surface");
+    btn.textContent = name;
 
-  const completed = document.createElement("li");
-  completed.classList.add("surface");
-  const btnCompleted = document.createElement("button");
-  btnCompleted.textContent = "Completed";
+    btn.addEventListener("click", () => setFilter(value));
 
-  all.appendChild(btnAll);
-  active.appendChild(btnActive);
-  completed.appendChild(btnCompleted);
+    li.appendChild(btn);
+    todoFilters.appendChild(li);
+  });
 
-  todoFilters.append(all, active, completed);
   todoFooterActions.append(todoCount, btnClearCompleted);
   footerEl.append(todoFooterActions, todoFilters);
 
@@ -124,11 +123,43 @@ function createFooter() {
   btnClearCompleted.addEventListener("click", clearCompletedTodo);
 }
 
-function updateTodoCount(todos) {
+function setFilter(filter) {
+  currentFilter = filter;
+  renderTodo(getFilteredTodos());
+  updateTodoCount();
+}
+
+function getFilteredTodos() {
+  switch (currentFilter) {
+    case "active":
+      return todos.filter((todo) => !todo.completed);
+    case "completed":
+      return todos.filter((todo) => todo.completed);
+    default:
+      return todos;
+  }
+}
+
+function updateTodoCount() {
   const countEl = document.querySelector(".todo-count");
   if (!countEl) return;
 
-  countEl.textContent = `${todos.length} items left`;
+  const filteredTodos = getFilteredTodos();
+  let label;
+
+  switch (currentFilter) {
+    case "active":
+      label = "items active";
+      break;
+    case "completed":
+      label = "items completed";
+      break;
+    default:
+      label = "total items";
+      break;
+  }
+
+  countEl.textContent = `${filteredTodos.length} ${label}`;
 }
 
 function completedTodo(todoList) {
@@ -147,8 +178,8 @@ function completedTodo(todoList) {
     if (!todo) return;
 
     todo.completed = checkbox.checked;
-
     li.classList.toggle("completed", todo.completed);
+    updateTodoCount();
   });
 }
 
@@ -168,7 +199,7 @@ function clearCompletedTodo(e) {
     }
   }
 
-  updateTodoCount(todos);
+  updateTodoCount();
 
   if (todos.length === 0 && footerEl) {
     footerEl.remove();
