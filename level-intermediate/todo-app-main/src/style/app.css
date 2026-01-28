@@ -87,8 +87,8 @@ button {
 
 /* keyboard user kebantu */
 button:focus-visible {
-  outline: 2px solid var(--primary-blue-500);
-  outline-offset: 2px;
+    outline: 2px solid var(--primary-blue-500);
+    outline-offset: 2px;
 }
 
 html,
@@ -196,6 +196,7 @@ body.dark .icon-moon {
 
 
 body.dark .surface {
+    color: var(--color-text-strong);
     background-color: var(--color-surface);
 }
 
@@ -203,9 +204,9 @@ body.dark .surface {
 body.dark input:-webkit-autofill,
 body.dark input:-webkit-autofill:hover,
 body.dark input:-webkit-autofill:focus {
-    -webkit-text-fill-color: var(--color-text);
+    -webkit-text-fill-color: var(--color-text-strong);
     -webkit-box-shadow: 0 0 0 1000px #25273c inset;
-    caret-color: var(--color-text);
+    caret-color: var(--color-text-strong);
     transition: background-color 9999s ease-in-out 0s;
 }
 
@@ -262,6 +263,10 @@ body.dark .todo-list li {
 .todo-list li:first-child {
     border-top-left-radius: var(--radius-md);
     border-top-right-radius: var(--radius-md);
+}
+
+.todo-checkbox {
+    cursor: pointer;
 }
 
 .icon-delete,
@@ -331,18 +336,25 @@ body.dark .todo-list .completed {
 
 .todo-filters li button {
     font-weight: 700;
-    transition: color .25s ease, transform .25s ease, underline .25s ease-in-out;
+    transition: color .15s ease, transform .25s ease;
 }
 
 .todo-filters li button:hover {
     color: var(--color-text-strong);
     transform: scale(1.015);
-    text-decoration: underline;
+}
+
+body.dark .todo-filters li button:hover {
+    color: var(--color-title);
 }
 
 .btn__clear-completed:hover {
     color: var(--color-text-strong);
     transform: scale(1.015);
+}
+
+body.dark .btn__clear-completed:hover {
+    color: var(--color-title);
 }
 
 .icon-delete:hover,
@@ -358,8 +370,6 @@ body.dark .todo-list .completed {
 }
 
 @media (min-width: 33.333rem) {
-
-    /* setara 600px */
     main {
         background: url('../assets/images/bg-desktop-light.jpg') center top / cover no-repeat;
         width: 100%;
@@ -387,6 +397,7 @@ body.dark .todo-list .completed {
         grid-template-areas: 'todo-count filters btnClearComplete';
         align-items: center;
         padding: var(--space-sm) var(--space-md);
+        background-color: var(--color-surface);
 
         border-bottom-left-radius: var(--radius-md);
         border-bottom-right-radius: var(--radius-md);
