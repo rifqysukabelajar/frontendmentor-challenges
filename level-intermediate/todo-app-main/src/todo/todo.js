@@ -1,4 +1,5 @@
 import { renderTodo } from "../ui/renderTodo.js";
+import { createElement } from "../utils/helper.js";
 
 const todos = [];
 let currentId = 1;
@@ -24,7 +25,7 @@ function getTodoElements() {
 
 function handleSubmit(e, input) {
   e.preventDefault();
-  handleAddTodo(input, () => renderTodo(todos))
+  handleAddTodo(input, () => renderTodo(todos));
 }
 
 function handleAddTodo(input, onSuccess) {
@@ -38,9 +39,8 @@ function handleAddTodo(input, onSuccess) {
   addTodo(value);
   input.value = "";
 
-  if (onSuccess) onSuccess(); 
+  if (onSuccess) onSuccess();
 }
-
 
 function addTodo(valueTodo) {
   const todo = {
@@ -87,26 +87,32 @@ function deleteTodo(todoList) {
 }
 
 function createFooter() {
-  footerEl = document.createElement("footer");
-  footerEl.classList.add("todo-footer");
+  const todoCount = createElement("span", "todo-count", "0 items left");
 
-  const todoFooterActions = document.createElement("div");
-  todoFooterActions.classList.add("todo-footer__actions", "surface");
-
-  const todoCount = document.createElement("span");
-  todoCount.classList.add("todo-count");
-  todoCount.textContent = "0 items left";
-
-  const btnClearCompleted = document.createElement("button");
-  btnClearCompleted.classList.add("btn__clear-completed");
-  btnClearCompleted.setAttribute(
-    "aria-label",
-    "Clear all completed todo items",
+  const btnClearCompleted = createElement(
+    "button",
+    "btn__clear-completed",
+    "Clear Completed",
+    { "aria-label": "Clear all completed todo items" },
   );
-  btnClearCompleted.textContent = "Clear Completed";
 
-  const todoFilters = document.createElement("ul");
-  todoFilters.classList.add("todo-filters", "surface");
+  const todoFooterActions = createElement("div", [
+    "todo-footer__actions",
+    "surface",
+  ]);
+  todoFooterActions.append(todoCount, btnClearCompleted);
+
+  const todoFilters = createFilters();
+
+  footerEl = createElement("footer", "todo-footer");
+  footerEl.append(todoFooterActions, todoFilters);
+
+  document.querySelector(".todo-list").after(footerEl);
+  btnClearCompleted.addEventListener("click", clearCompletedTodo);
+}
+
+function createFilters() {
+  const todoFilters = createElement("ul", ["todo-filters", "surface"]);
 
   const filters = [
     { name: "All", value: "all" },
@@ -116,21 +122,15 @@ function createFooter() {
 
   filters.forEach(({ name, value }) => {
     const li = document.createElement("li");
-    const btn = document.createElement("button");
-    btn.classList.add(`filter-${value}`, "surface");
-    btn.textContent = name;
 
+    const btn = createElement("button", [`filter-${value}`, "surface"], name);
     btn.addEventListener("click", () => setFilter(value));
 
     li.appendChild(btn);
     todoFilters.appendChild(li);
   });
 
-  todoFooterActions.append(todoCount, btnClearCompleted);
-  footerEl.append(todoFooterActions, todoFilters);
-
-  document.querySelector(".todo-list").after(footerEl);
-  btnClearCompleted.addEventListener("click", clearCompletedTodo);
+  return todoFilters;
 }
 
 function setFilter(filter) {
