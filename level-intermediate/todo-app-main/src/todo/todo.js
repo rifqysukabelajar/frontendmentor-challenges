@@ -66,11 +66,7 @@ function deleteTodo(todoList) {
     const li = btn.closest("li");
     if (!li) return;
 
-    const span = li.querySelector("span[data-id]");
-    if (!span) return;
-
-    const id = Number(span.dataset.id);
-
+    const id = Number(li.dataset.id);
     const index = todos.findIndex((todo) => todo.id === id);
     if (index !== -1) {
       todos.splice(index, 1);
@@ -87,24 +83,31 @@ function deleteTodo(todoList) {
 }
 
 function createFooter() {
-  const todoCount = createElement("span", "todo-count", "0 items left");
+  const todoCount = createElement({
+    tag: "span",
+    classNames: "todo-count",
+    content: "0 items left",
+  });
 
-  const btnClearCompleted = createElement(
-    "button",
-    "btn__clear-completed",
-    "Clear Completed",
-    { "aria-label": "Clear all completed todo items" },
-  );
+  const btnClearCompleted = createElement({
+    tag: "button",
+    classNames: "btn__clear-completed",
+    content: "Clear Completed",
+    attribute: { "aria-label": "Clear all completed todo items" },
+  });
 
-  const todoFooterActions = createElement("div", [
-    "todo-footer__actions",
-    "surface",
-  ]);
+  const todoFooterActions = createElement({
+    tag: "div",
+    classNames: ["todo-footer__actions", "surface"],
+  });
   todoFooterActions.append(todoCount, btnClearCompleted);
 
   const todoFilters = createFilters();
 
-  footerEl = createElement("footer", "todo-footer");
+  footerEl = createElement({
+    tag: "footer",
+    classNames: "todo-footer",
+  });
   footerEl.append(todoFooterActions, todoFilters);
 
   document.querySelector(".todo-list").after(footerEl);
@@ -112,7 +115,10 @@ function createFooter() {
 }
 
 function createFilters() {
-  const todoFilters = createElement("ul", ["todo-filters", "surface"]);
+  const todoFilters = createElement({
+    tag: "ul",
+    classNames: ["todo-filters", "surface"],
+  });
 
   const filters = [
     { name: "All", value: "all" },
@@ -123,7 +129,11 @@ function createFilters() {
   filters.forEach(({ name, value }) => {
     const li = document.createElement("li");
 
-    const btn = createElement("button", [`filter-${value}`, "surface"], name);
+    const btn = createElement({
+      tag: "button",
+      classNames: [`filter-${value}`, "surface"],
+      content: name,
+    });
     btn.addEventListener("click", () => setFilter(value));
 
     li.appendChild(btn);
@@ -180,10 +190,7 @@ function completedTodo(todoList) {
     const li = checkbox.closest("li");
     if (!li) return;
 
-    const span = li.querySelector("span[data-id]");
-    if (!span) return;
-
-    const id = Number(span.dataset.id);
+    const id = Number(li.dataset.id);
     const todo = todos.find((todo) => todo.id === id);
     if (!todo) return;
 
