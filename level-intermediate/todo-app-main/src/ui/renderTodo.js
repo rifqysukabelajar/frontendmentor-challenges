@@ -1,44 +1,71 @@
-import { ASSET_PATH } from '../main.js';
+import { ASSET_PATH } from "../main.js";
+import { createElement } from "../utils/helper.js";
+
+function createTodoItem(todo) {
+  const { id, valueTodo, completed } = todo;
+
+  const todoText = createElement({
+    tag: "span",
+    classNames: "todo-text",
+    content: valueTodo,
+  });
+
+  const checkbox = createElement({
+    tag: "input",
+    classNames: "todo-checkbox",
+    attribute: { type: "checkbox" },
+  });
+  checkbox.checked = completed;
+
+  const todoMainContainer = createElement({
+    tag: "div",
+    classNames: "todo-main",
+  });
+  todoMainContainer.append(checkbox, todoText);
+
+  const deleteButton = createDeleteButton(id);
+
+  const li = createElement({
+    tag: "li",
+    classNames: "surface",
+    attribute: { "data-id": id },
+  });
+
+  li.classList.toggle("completed", completed);
+  li.append(todoMainContainer, deleteButton);
+
+  return li;
+}
+
+function createDeleteButton(todoId) {
+  const iconDelete = createElement({
+    tag: "img",
+    classNames: ["icon", "icon-delete"],
+    attribute: {
+      src: `${ASSET_PATH}/icons/icon-cross.svg`,
+      alt: "Delete todo",
+      width: 13.5,
+      height: 13.5,
+      "aria-hidden": true,
+    },
+  });
+
+  const deleteButton = createElement({
+    tag: "button",
+    classNames: ["btn", "btn__delete"],
+    attribute: { "aria-label": "Delete todo item" },
+  });
+  deleteButton.appendChild(iconDelete);
+
+  return deleteButton;
+}
 
 export function renderTodo(todos) {
   const list = document.querySelector(".todo-list");
   list.innerHTML = "";
 
-  todos.forEach(({ id, valueTodo, completed }) => {
-    const li = document.createElement("li");
-    li.classList.add("surface");
-
-    const div = document.createElement("div");
-    div.classList.add("todo-main");
-
-    const span = document.createElement("span");
-    span.dataset.id = id;
-    span.textContent = valueTodo;
-    span.classList.add("todo-text");
-
-    const checkbox = document.createElement("input");
-    checkbox.type = "checkbox";
-    checkbox.classList.add("todo-checkbox");
-    checkbox.checked = completed
-
-    const imgDelete = document.createElement("img");
-    imgDelete.classList.add("icon", "icon-delete");
-    imgDelete.src = `${ASSET_PATH}/icons/icon-cross.svg`;
-    imgDelete.alt = "Delete todo";
-    imgDelete.width = 13.5;
-    imgDelete.height = 13.5;
-    imgDelete.setAttribute("aria-hidden", "true");
-
-    const deleteButton = document.createElement("button");
-    deleteButton.classList.add("btn", "btn__delete");
-    deleteButton.setAttribute("aria-label", "Delete todo item");
-    deleteButton.appendChild(imgDelete);
-
-
-    div.append(checkbox, span);
-    li.append(div, deleteButton);
-
-    li.classList.toggle("completed", completed);
-    list.appendChild(li);
+  todos.forEach((todo) => {
+    const todoItem = createTodoItem(todo);
+    list.appendChild(todoItem);
   });
 }
