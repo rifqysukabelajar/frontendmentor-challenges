@@ -3,7 +3,7 @@
 // const span = createElement('span', 'todo-count', '5 items left');
 // const btn = createElement('button', ['btn', 'primary'], 'Click', { type: 'button' });
 
-export function createElement(tag, classNames = null, content = "", attribute = {}) {
+export function createElement({ tag, classNames = null, content = "", attribute = {} }) {
   if (!tag || typeof tag !== "string") {
     throw new Error("Parameter tag tidak boleh kosong dan berupa string");
   }
@@ -21,6 +21,10 @@ export function createElement(tag, classNames = null, content = "", attribute = 
     // masukin classNames ke dalam array
     // lalu ...[classNames] menghasilkan: 'todo-footer'
     // el.classList.add('todo-footer')
+
+    // Versi mudah dibaca
+    // const classList = Array.isArray(classes) ? classes : [classes];
+    // el.classList.add(...classList);
 
     el.classList.add(
       ...(Array.isArray(classNames) ? classNames : [classNames]),
