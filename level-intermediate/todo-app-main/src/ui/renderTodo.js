@@ -1,5 +1,6 @@
 import { ASSET_PATH } from "../main.js";
 import { createElement } from "../utils/helper.js";
+import { getFilteredTodos } from "../todo/todo.js";
 
 function createTodoItem(todo) {
   const { id, valueTodo, completed } = todo;
@@ -60,9 +61,11 @@ function createDeleteButton(todoId) {
   return deleteButton;
 }
 
-export function renderTodo(todos) {
+export function renderTodo() {
   const list = document.querySelector(".todo-list");
   list.innerHTML = "";
+
+  const todos = getFilteredTodos();
 
   todos.forEach((todo) => {
     const todoItem = createTodoItem(todo);
