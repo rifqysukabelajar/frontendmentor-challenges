@@ -76,7 +76,10 @@ function deleteTodo(todoList) {
 function clearCompletedTodo(e) {
   const hasCompleted = todoStore.todos.some((todo) => todo.completed);
   if (!hasCompleted) {
-    showNotifications("Belum ada todo yang statusnya completed", "warning");
+    showNotifications({
+      message: "Belum ada todo yang statusnya completed",
+      type: "warning",
+    });
     return;
   }
 
@@ -94,7 +97,10 @@ function handleAddTodo(input, onSuccess) {
   const value = input.value.trim();
   if (!value) {
     input.focus();
-    showNotifications("Input tidak boleh kosong!", "warning");
+    showNotifications({
+      message: "Input tidak boleh kosong!",
+      type: "warning",
+    });
     return;
   }
 
@@ -104,10 +110,10 @@ function handleAddTodo(input, onSuccess) {
   if (onSuccess) onSuccess();
 }
 
-function addTodo(valueTodo) {
+function addTodo(text) {
   const todo = {
     id: todoStore.currentId++,
-    valueTodo,
+    text,
     completed: false,
   };
 

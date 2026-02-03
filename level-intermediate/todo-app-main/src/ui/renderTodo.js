@@ -3,12 +3,12 @@ import { createElement } from "../utils/helper.js";
 import { getFilteredTodos } from "../todo/todo.js";
 
 function createTodoItem(todo) {
-  const { id, valueTodo, completed } = todo;
+  const { id, text, completed } = todo;
 
   const todoText = createElement({
     tag: "span",
     classNames: "todo-text",
-    content: valueTodo,
+    content: text,
   });
 
   const checkbox = createElement({
