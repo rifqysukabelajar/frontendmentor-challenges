@@ -1,10 +1,19 @@
 import { renderTodo } from "../ui/renderTodo.js";
 import { createElement } from "../utils/helper.js";
+import { showNotifications } from "../utils/notifications.js";
 
-const todos = [];
-let currentId = 1;
+export const todoStore = {
+  todos: [],
+  currentId: 1,
+  currentFilter: "all",
+};
+
 let footerEl = null;
-let currentFilter = "all";
+
+function render() {
+  renderTodo();
+  updateTodoCount();
+}
 
 export const initTodo = function () {
   const { form, input, list } = getTodoElements();
@@ -25,37 +34,24 @@ function getTodoElements() {
 
 function handleSubmit(e, input) {
   e.preventDefault();
-  handleAddTodo(input, () => renderTodo(todos));
+  handleAddTodo(input, () => render());
 }
 
-function handleAddTodo(input, onSuccess) {
-  const value = input.value.trim();
-  if (!value) {
-    input.focus();
-    alert("Input tidak boleh kosong!");
-    return;
-  }
+function completedTodo(todoList) {
+  todoList.addEventListener("change", (e) => {
+    const checkbox = e.target;
+    if (!checkbox.classList.contains("todo-checkbox")) return;
 
-  addTodo(value);
-  input.value = "";
+    const li = checkbox.closest("li");
+    if (!li) return;
 
-  if (onSuccess) onSuccess();
-}
+    const id = Number(li.dataset.id);
+    const todo = todoStore.todos.find((todo) => todo.id === id);
+    if (!todo) return;
 
-function addTodo(valueTodo) {
-  const todo = {
-    id: currentId++,
-    valueTodo,
-    completed: false,
-  };
-
-  todos.push(todo);
-
-  if (todos.length === 1) {
-    createFooter();
-  }
-
-  updateTodoCount();
+    todo.completed = checkbox.checked;
+    render();
+  });
 }
 
 function deleteTodo(todoList) {
@@ -67,19 +63,77 @@ function deleteTodo(todoList) {
     if (!li) return;
 
     const id = Number(li.dataset.id);
-    const index = todos.findIndex((todo) => todo.id === id);
+    const index = todoStore.todos.findIndex((todo) => todo.id === id);
     if (index !== -1) {
-      todos.splice(index, 1);
+      todoStore.todos.splice(index, 1);
     }
 
-    li.remove();
-    updateTodoCount();
-
-    if (todos.length === 0 && footerEl) {
-      footerEl.remove();
-      footerEl = null;
-    }
+    render();
+    removeFooterElement();
   });
+}
+
+function clearCompletedTodo(e) {
+  const hasCompleted = todoStore.todos.some((todo) => todo.completed);
+  if (!hasCompleted) {
+    showNotifications("Belum ada todo yang statusnya completed", "warning");
+    return;
+  }
+
+  for (let i = todoStore.todos.length - 1; i >= 0; i--) {
+    if (todoStore.todos[i].completed) {
+      todoStore.todos.splice(i, 1);
+    }
+  }
+
+  removeFooterElement();
+  render();
+}
+
+function handleAddTodo(input, onSuccess) {
+  const value = input.value.trim();
+  if (!value) {
+    input.focus();
+    showNotifications("Input tidak boleh kosong!", "warning");
+    return;
+  }
+
+  addTodo(value);
+  input.value = "";
+
+  if (onSuccess) onSuccess();
+}
+
+function addTodo(valueTodo) {
+  const todo = {
+    id: todoStore.currentId++,
+    valueTodo,
+    completed: false,
+  };
+
+  todoStore.todos.push(todo);
+
+  if (todoStore.todos.length === 1) {
+    createFooter();
+  }
+
+  render();
+}
+
+function setFilter(filter) {
+  todoStore.currentFilter = filter;
+  render();
+}
+
+export function getFilteredTodos() {
+  switch (todoStore.currentFilter) {
+    case "active":
+      return todoStore.todos.filter((todo) => !todo.completed);
+    case "completed":
+      return todoStore.todos.filter((todo) => todo.completed);
+    default:
+      return todoStore.todos;
+  }
 }
 
 function createFooter() {
@@ -108,9 +162,10 @@ function createFooter() {
     tag: "footer",
     classNames: "todo-footer",
   });
-  footerEl.append(todoFooterActions, todoFilters);
 
+  footerEl.append(todoFooterActions, todoFilters);
   document.querySelector(".todo-list").after(footerEl);
+
   btnClearCompleted.addEventListener("click", clearCompletedTodo);
 }
 
@@ -143,20 +198,10 @@ function createFilters() {
   return todoFilters;
 }
 
-function setFilter(filter) {
-  currentFilter = filter;
-  renderTodo(getFilteredTodos());
-  updateTodoCount();
-}
-
-function getFilteredTodos() {
-  switch (currentFilter) {
-    case "active":
-      return todos.filter((todo) => !todo.completed);
-    case "completed":
-      return todos.filter((todo) => todo.completed);
-    default:
-      return todos;
+function removeFooterElement() {
+  if (todoStore.todos.length === 0 && footerEl) {
+    footerEl.remove();
+    footerEl = null;
   }
 }
 
@@ -167,7 +212,7 @@ function updateTodoCount() {
   const filteredTodos = getFilteredTodos();
   let label;
 
-  switch (currentFilter) {
+  switch (todoStore.currentFilter) {
     case "active":
       label = "items active";
       break;
@@ -180,48 +225,4 @@ function updateTodoCount() {
   }
 
   countEl.textContent = `${filteredTodos.length} ${label}`;
-}
-
-function completedTodo(todoList) {
-  todoList.addEventListener("change", (e) => {
-    const checkbox = e.target;
-    if (!checkbox.classList.contains("todo-checkbox")) return;
-
-    const li = checkbox.closest("li");
-    if (!li) return;
-
-    const id = Number(li.dataset.id);
-    const todo = todos.find((todo) => todo.id === id);
-    if (!todo) return;
-
-    todo.completed = checkbox.checked;
-    li.classList.toggle("completed", todo.completed);
-    updateTodoCount();
-  });
-}
-
-function clearCompletedTodo(e) {
-  const btn = e.target.closest(".btn__clear-completed");
-  if (!btn) return;
-
-  const hasCompleted = todos.some((todo) => todo.completed);
-  if (!hasCompleted) {
-    alert("Belum ada todo yang statusnya completed");
-    return;
-  }
-
-  for (let i = todos.length - 1; i >= 0; i--) {
-    if (todos[i].completed) {
-      todos.splice(i, 1);
-    }
-  }
-
-  updateTodoCount();
-
-  if (todos.length === 0 && footerEl) {
-    footerEl.remove();
-    footerEl = null;
-  }
-
-  renderTodo(todos);
 }
