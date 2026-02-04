@@ -3,7 +3,12 @@
 // const span = createElement('span', 'todo-count', '5 items left');
 // const btn = createElement('button', ['btn', 'primary'], 'Click', { type: 'button' });
 
-export function createElement({ tag, classNames = null, content = "", attribute = {} }) {
+export function createElement({
+  tag,
+  classNames = null,
+  content = "",
+  attribute = {},
+}) {
   if (!tag || typeof tag !== "string") {
     throw new Error("Parameter tag tidak boleh kosong dan berupa string");
   }

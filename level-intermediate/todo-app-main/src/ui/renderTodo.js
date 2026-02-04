@@ -1,6 +1,6 @@
 import { ASSET_PATH } from "../main.js";
 import { createElement } from "../utils/helper.js";
-import { getFilteredTodos } from "../todo/todo.js";
+import { getFilteredTodos } from "./renderFooter.js";
 
 function createTodoItem(todo) {
   const { id, text, completed } = todo;
