@@ -1,6 +1,6 @@
-import { renderTodo } from "../ui/renderTodo.js";
-import { createElement } from "../utils/helper.js";
 import { showNotifications } from "../utils/notifications.js";
+import { renderUI } from "../ui/renderUI.js";
+import { commit } from "./commit.js";
 
 export const todoStore = {
   todos: [],
@@ -8,15 +8,10 @@ export const todoStore = {
   currentFilter: "all",
 };
 
-let footerEl = null;
-
-function render() {
-  renderTodo();
-  updateTodoCount();
-}
-
 export const initTodo = function () {
   const { form, input, list } = getTodoElements();
+
+  renderUI();
 
   completedTodo(list);
   deleteTodo(list);
@@ -34,7 +29,7 @@ function getTodoElements() {
 
 function handleSubmit(e, input) {
   e.preventDefault();
-  handleAddTodo(input, () => render());
+  handleAddTodo(input);
 }
 
 function completedTodo(todoList) {
@@ -50,7 +45,7 @@ function completedTodo(todoList) {
     if (!todo) return;
 
     todo.completed = checkbox.checked;
-    render();
+    commit()
   });
 }
 
@@ -68,32 +63,11 @@ function deleteTodo(todoList) {
       todoStore.todos.splice(index, 1);
     }
 
-    render();
-    removeFooterElement();
+    commit()
   });
 }
 
-function clearCompletedTodo(e) {
-  const hasCompleted = todoStore.todos.some((todo) => todo.completed);
-  if (!hasCompleted) {
-    showNotifications({
-      message: "Belum ada todo yang statusnya completed",
-      type: "warning",
-    });
-    return;
-  }
-
-  for (let i = todoStore.todos.length - 1; i >= 0; i--) {
-    if (todoStore.todos[i].completed) {
-      todoStore.todos.splice(i, 1);
-    }
-  }
-
-  removeFooterElement();
-  render();
-}
-
-function handleAddTodo(input, onSuccess) {
+function handleAddTodo(input) {
   const value = input.value.trim();
   if (!value) {
     input.focus();
@@ -106,8 +80,6 @@ function handleAddTodo(input, onSuccess) {
 
   addTodo(value);
   input.value = "";
-
-  if (onSuccess) onSuccess();
 }
 
 function addTodo(text) {
@@ -119,116 +91,5 @@ function addTodo(text) {
 
   todoStore.todos.push(todo);
 
-  if (todoStore.todos.length === 1) {
-    createFooter();
-  }
-
-  render();
-}
-
-function setFilter(filter) {
-  todoStore.currentFilter = filter;
-  render();
-}
-
-export function getFilteredTodos() {
-  switch (todoStore.currentFilter) {
-    case "active":
-      return todoStore.todos.filter((todo) => !todo.completed);
-    case "completed":
-      return todoStore.todos.filter((todo) => todo.completed);
-    default:
-      return todoStore.todos;
-  }
-}
-
-function createFooter() {
-  const todoCount = createElement({
-    tag: "span",
-    classNames: "todo-count",
-    content: "0 items left",
-  });
-
-  const btnClearCompleted = createElement({
-    tag: "button",
-    classNames: "btn__clear-completed",
-    content: "Clear Completed",
-    attribute: { "aria-label": "Clear all completed todo items" },
-  });
-
-  const todoFooterActions = createElement({
-    tag: "div",
-    classNames: ["todo-footer__actions", "surface"],
-  });
-  todoFooterActions.append(todoCount, btnClearCompleted);
-
-  const todoFilters = createFilters();
-
-  footerEl = createElement({
-    tag: "footer",
-    classNames: "todo-footer",
-  });
-
-  footerEl.append(todoFooterActions, todoFilters);
-  document.querySelector(".todo-list").after(footerEl);
-
-  btnClearCompleted.addEventListener("click", clearCompletedTodo);
-}
-
-function createFilters() {
-  const todoFilters = createElement({
-    tag: "ul",
-    classNames: ["todo-filters", "surface"],
-  });
-
-  const filters = [
-    { name: "All", value: "all" },
-    { name: "Active", value: "active" },
-    { name: "Completed", value: "completed" },
-  ];
-
-  filters.forEach(({ name, value }) => {
-    const li = document.createElement("li");
-
-    const btn = createElement({
-      tag: "button",
-      classNames: [`filter-${value}`, "surface"],
-      content: name,
-    });
-    btn.addEventListener("click", () => setFilter(value));
-
-    li.appendChild(btn);
-    todoFilters.appendChild(li);
-  });
-
-  return todoFilters;
-}
-
-function removeFooterElement() {
-  if (todoStore.todos.length === 0 && footerEl) {
-    footerEl.remove();
-    footerEl = null;
-  }
-}
-
-function updateTodoCount() {
-  const countEl = document.querySelector(".todo-count");
-  if (!countEl) return;
-
-  const filteredTodos = getFilteredTodos();
-  let label;
-
-  switch (todoStore.currentFilter) {
-    case "active":
-      label = "items active";
-      break;
-    case "completed":
-      label = "items completed";
-      break;
-    default:
-      label = "total items";
-      break;
-  }
-
-  countEl.textContent = `${filteredTodos.length} ${label}`;
+  commit()
 }
