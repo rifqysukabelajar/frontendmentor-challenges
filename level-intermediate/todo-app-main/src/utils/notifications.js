@@ -1,23 +1,27 @@
-import { createElement } from "../utils/helper.js";
+export function showNotifications({
+  message,
+  type = "warning",
+  parent = document.querySelector(".todo-group"),
+}) {
+  const notif = parent.querySelector(".todo-notif");
 
-export function showNotifications({ message, type = "info" }) {
-  let error = document.querySelector(".error");
-
-  if (!error) {
-    error = createElement({
-      tag: "small",
-      classNames: "error",
-    });
-    document.body.appendChild(error);
+  if (!notif) {
+    console.warn("Element not found");
+    return;
   }
 
-  error.className = `error error__${type}`;
-  error.textContent = message;
+  // reset
+  notif.className = "todo-notif";
+  parent.classList.remove("warning", "error");
 
-  setTimeout(() => error.classList.add("error__show"), 10);
+  notif.textContent = message;
+  notif.classList.add(`notif--${type}`, "notif--show");
+  parent.classList.add(type);
 
-  setTimeout(() => {
-    error.classList.remove("error__show");
-    setTimeout(() => error.remove(), 300);
+  clearTimeout(showNotifications._timer);
+  showNotifications._timer = setTimeout(() => {
+    notif.classList.remove("notif--show");
+    parent.classList.remove("warning", "error");
+    notif.textContent = "";
   }, 3000);
 }

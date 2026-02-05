@@ -1,8 +1,8 @@
 :root {
     --font-family: "Josefin Sans", sans-serif;
 
-    --primary-blue-500: hsl(220, 98%, 61%);
-    --primary-check-bg: linear-gradient(hsl(192, 100%, 67%), hsl(280, 87%, 65%));
+    --color-filter-active: #0c92ff;
+    --primary-check-bg: linear-gradient(135deg, hsl(192, 100%, 67%), hsl(280, 87%, 65%));
     --color-white: #fff;
 
     /* light theme */
@@ -28,6 +28,10 @@
     --color-text: var(--light-Gray-600);
     --color-text-strong: var(--light-Navy-850);
     --color-border: var(--light-Gray-300);
+
+    --color-error-bg: hsl(46, 100%, 92%);
+    --color-error-outline: #ffc107;
+
 
     --fs-xs: clamp(0.75rem, 0.8vw, 0.875rem);
     --fs-sm: clamp(0.875rem, 1vw, 1rem);
@@ -63,10 +67,6 @@ input {
     font-size: var(--fs-sm);
     color: var(--color-text-strong);
     border: none;
-}
-
-input:focus {
-    outline: none;
 }
 
 li {
@@ -136,7 +136,6 @@ main {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: var(--space-md);
 }
 
 .todo-title {
@@ -216,9 +215,19 @@ body.dark .todo-list li {
     border-bottom: 1px solid var(--color-border);
 }
 
+.todo-group {
+    position: relative;
+    padding-top: var(--space-lg);
+    --input-outline: transparent;
+}
+
 #todo-input {
     color: var(--color-text-strong);
     width: 100%;
+
+    outline: 2px solid var(--input-outline);
+    outline-offset: 2px;
+    transition: outline-color .2s ease;
 }
 
 #todo-input,
@@ -247,7 +256,37 @@ body.dark .todo-list li {
     display: flex;
     align-items: center;
     gap: var(--space-sm);
+    cursor: pointer;
 }
+
+.todo-icon-box {
+    width: clamp(1.125rem, 1.5vw, 1.5rem);
+    height: clamp(1.125rem, 1.5vw, 1.5rem);
+    border-radius: 50%;
+    border: 1px solid var(--color-border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.2s;
+}
+
+.todo-icon-box img {
+    width: clamp(0.55rem, 0.8vw, 0.7rem);
+    opacity: 0;
+    transform: scale(0.5);
+    transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.todo-checkbox:checked+.todo-icon-box {
+    background: var(--primary-check-bg);
+    border: none;
+}
+
+.todo-checkbox:checked+.todo-icon-box img {
+    opacity: 1;
+    transform: scale(1);
+}
+
 
 .todo-list li {
     font-size: var(--fs-sm);
@@ -266,7 +305,7 @@ body.dark .todo-list li {
 }
 
 .todo-checkbox {
-    cursor: pointer;
+    display: none;
 }
 
 .icon-delete,
@@ -330,8 +369,8 @@ body.dark .todo-list .completed {
 
 }
 
-.todo-filters li:first-child button {
-    color: var(--primary-blue-500);
+.todo-filters li button.active {
+    color: var(--color-filter-active);
 }
 
 .todo-filters li button {
@@ -342,6 +381,7 @@ body.dark .todo-list .completed {
 .todo-filters li button:hover {
     color: var(--color-text-strong);
     transform: scale(1.015);
+    border-bottom: 2px solid var(--color-filter-active);
 }
 
 body.dark .todo-filters li button:hover {
@@ -369,41 +409,42 @@ body.dark .btn__clear-completed:hover {
     opacity: .5;
 }
 
-.error {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    padding: .5rem 1.5rem;
-    border-radius: 8px;
-    font-weight: 500;
+
+.todo-group.error {
+    --input-outline: var(--color-error-outline);
+}
+
+.todo-group.error #todo-input {
+    background: var(--color-error-bg);
+}
+
+
+.todo-notif {
+    position: absolute;
+    top: .25rem;
+    right: 0;
     opacity: 0;
     transform: translateY(-20px);
     transition: all .3s ease;
     z-index: 9999;
 }
 
-.error__show {
+.notif--show {
     opacity: 1;
     transform: translateY(0);
 }
 
-.error__warning {
-    background: #fff3cd;
-    color: #856404;
-    border-left: 4px solid #ffc107;
+.notif--warning,
+.notif--error {
+    font-size: var(--fs-xs);
+    color: var(--color-surface);
 }
 
-.error__error {
-    background: #f8d7da;
-    color: #721c24;
-    border-left: 4px solid #dc3545;
+body.dark .notif--warning,
+body.dark .notif--error {
+    color: var(--color-text-strong);
 }
 
-.error__info {
-    background: #d1ecf1;
-    color: #0c5460;
-    border-left: 4px solid #17a2b8;
-}
 
 @media (min-width: 33.333rem) {
     main {
@@ -451,6 +492,7 @@ body.dark .btn__clear-completed:hover {
 
     .btn__clear-completed {
         grid-area: btnClearComplete;
+        justify-self: end;
     }
 
     body.dark .todo-filters,
