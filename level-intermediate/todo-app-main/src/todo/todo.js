@@ -17,6 +17,8 @@ export const initTodo = function () {
   deleteTodo(list);
 
   form.addEventListener("submit", (e) => handleSubmit(e, input));
+  console.log(document.body);
+  
 };
 
 function getTodoElements() {
@@ -73,7 +75,7 @@ function handleAddTodo(input) {
     input.focus();
     showNotifications({
       message: "Input tidak boleh kosong!",
-      type: "warning",
+      type: "error",
     });
     return;
   }
