@@ -3,27 +3,9 @@ import { createElement } from "../utils/helper.js";
 import { getFilteredTodos } from "./renderFooter.js";
 
 function createTodoItem(todo) {
-  const { id, text, completed } = todo;
+  const { id, completed } = todo;
 
-  const todoText = createElement({
-    tag: "span",
-    classNames: "todo-text",
-    content: text,
-  });
-
-  const checkbox = createElement({
-    tag: "input",
-    classNames: "todo-checkbox",
-    attribute: { type: "checkbox" },
-  });
-  checkbox.checked = completed;
-
-  const todoMainContainer = createElement({
-    tag: "div",
-    classNames: "todo-main",
-  });
-  todoMainContainer.append(checkbox, todoText);
-
+  const inputCheckbox = createInputCheckbox(todo);
   const deleteButton = createDeleteButton(id);
 
   const li = createElement({
@@ -33,9 +15,52 @@ function createTodoItem(todo) {
   });
 
   li.classList.toggle("completed", completed);
-  li.append(todoMainContainer, deleteButton);
+  li.append(inputCheckbox, deleteButton);
 
   return li;
+}
+
+function createInputCheckbox(todo) {
+  const { text, completed } = todo;
+
+  const checkbox = createElement({
+    tag: "input",
+    classNames: "todo-checkbox",
+    attribute: { type: "checkbox" },
+  });
+  checkbox.checked = completed;
+
+  const wrapperIcon = createElement({
+    tag: "span",
+    classNames: "todo-icon-box",
+  });
+
+  const iconCheck = createElement({
+    tag: "img",
+    attribute: {
+      src: `${ASSET_PATH}/icons/icon-check.svg`,
+      alt: "Checklist todo",
+      width: 11,
+      height: 11,
+      "aria-hidden": "true",
+    },
+  });
+
+  wrapperIcon.appendChild(iconCheck);
+
+  const todoText = createElement({
+    tag: "span",
+    classNames: "todo-text",
+    content: text,
+  });
+
+  const todoMainContainer = createElement({
+    tag: "label",
+    classNames: "todo-main",
+  });
+  todoMainContainer.append(checkbox, wrapperIcon, todoText);
+
+  return todoMainContainer;
 }
 
 function createDeleteButton(todoId) {
@@ -47,7 +72,7 @@ function createDeleteButton(todoId) {
       alt: "Delete todo",
       width: 13.5,
       height: 13.5,
-      "aria-hidden": true,
+      "aria-hidden": "true",
     },
   });
 
@@ -63,6 +88,7 @@ function createDeleteButton(todoId) {
 
 export function renderTodo() {
   const list = document.querySelector(".todo-list");
+  if (!list) return;
   list.innerHTML = "";
 
   const todos = getFilteredTodos();
