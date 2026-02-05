@@ -9,7 +9,7 @@ function clearCompletedTodo() {
   const hasCompleted = todoStore.todos.some((todo) => todo.completed);
   if (!hasCompleted) {
     showNotifications({
-      message: "Belum ada todo yang statusnya completed",
+      message: "Belum ada todo yang bisa diclear",
       type: "warning",
     });
     return;
@@ -21,12 +21,13 @@ function clearCompletedTodo() {
     }
   }
 
-  commit()
+  commit();
 }
 
 function setFilter(filter) {
   todoStore.currentFilter = filter;
-  commit()
+  commit();
+  updateActiveFilter();
 }
 
 export function getFilteredTodos() {
@@ -38,6 +39,16 @@ export function getFilteredTodos() {
     default:
       return todoStore.todos;
   }
+}
+
+function updateActiveFilter() {
+  const buttons = document.querySelectorAll(".todo-filters li button");
+  buttons.forEach((btn) => {
+    btn.classList.toggle(
+      "active",
+      btn.dataset.filter === todoStore.currentFilter,
+    );
+  });
 }
 
 export function updateTodoCount() {
@@ -121,9 +132,12 @@ function createFilters() {
 
     const btn = createElement({
       tag: "button",
-      classNames: [`filter-${value}`, "surface"],
+      classNames: "surface",
       content: name,
     });
+
+    btn.dataset.filter = value;
+
     btn.addEventListener("click", () => setFilter(value));
 
     li.appendChild(btn);
@@ -146,5 +160,6 @@ export function renderFooter() {
     document.querySelector(".todo-list").after(footerEl);
   }
 
+  updateActiveFilter();
   removeFooter();
 }
