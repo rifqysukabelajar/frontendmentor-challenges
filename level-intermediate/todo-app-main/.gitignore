@@ -38,3 +38,8 @@ npm-debug.log*
 *.pem
 .DS_Store
 Thumbs.db
+
+# Frontend Mentor files
+/design
+README-template.md
+style-guide.md
