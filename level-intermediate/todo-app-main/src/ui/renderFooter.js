@@ -4,6 +4,8 @@ import { showNotifications } from "../utils/notifications.js";
 import { commit } from "../todo/commit.js";
 
 let footerEl = null;
+let countEl = null;
+let filterButtons = null;
 
 function clearCompletedTodo() {
   const hasCompleted = todoStore.todos.some((todo) => todo.completed);
@@ -42,8 +44,9 @@ export function getFilteredTodos() {
 }
 
 function updateActiveFilter() {
-  const buttons = document.querySelectorAll(".todo-filters li button");
-  buttons.forEach((btn) => {
+  if (!filterButtons) return;
+
+  filterButtons.forEach((btn) => {
     btn.classList.toggle(
       "active",
       btn.dataset.filter === todoStore.currentFilter,
@@ -52,7 +55,6 @@ function updateActiveFilter() {
 }
 
 export function updateTodoCount() {
-  const countEl = document.querySelector(".todo-count");
   if (!countEl) return;
 
   const filteredTodos = getFilteredTodos();
@@ -74,16 +76,17 @@ export function updateTodoCount() {
 }
 
 function createFooter() {
-  const todoCount = createTodoCount();
+  countEl = createTodoCount();
   const btnClearCompleted = createBtnClearCompleted();
 
   const todoFooterActions = createElement({
     tag: "div",
     classNames: ["todo-footer__actions", "surface"],
   });
-  todoFooterActions.append(todoCount, btnClearCompleted);
+  todoFooterActions.append(countEl, btnClearCompleted);
 
-  const todoFilters = createFilters();
+  const { element: todoFilters, buttons } = createFilters();
+  filterButtons = buttons;
 
   footerEl = createElement({
     tag: "footer",
@@ -121,6 +124,8 @@ function createFilters() {
     classNames: ["todo-filters", "surface"],
   });
 
+  const buttons = [];
+
   const filters = [
     { name: "All", value: "all" },
     { name: "Active", value: "active" },
@@ -137,20 +142,22 @@ function createFilters() {
     });
 
     btn.dataset.filter = value;
-
     btn.addEventListener("click", () => setFilter(value));
 
+    buttons.push(btn);
     li.appendChild(btn);
     todoFilters.appendChild(li);
   });
 
-  return todoFilters;
+  return { element: todoFilters, buttons };
 }
 
 function removeFooter() {
   if (todoStore.todos.length === 0 && footerEl) {
     footerEl.remove();
     footerEl = null;
+    countEl = null;
+    filterButtons = null;
   }
 }
 
