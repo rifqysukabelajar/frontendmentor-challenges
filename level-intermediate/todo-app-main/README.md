@@ -1,6 +1,6 @@
 # Frontend Mentor - Todo app
 
-[![Design preview for the Todo app coding challenge](./assets/images/todo-screenshot.png)](https://rifqysukabelajar.github.io/frontendmentor-challenges/level-intermediate/todo-app-main/src/index.html)
+[![Design preview for the Todo app coding challenge](./src/assets/images/todo-screenshot.png)](https://rifqysukabelajar.github.io/frontendmentor-challenges/level-intermediate/todo-app-main/src/index.html)
 
 ## Welcome! 👋
 
