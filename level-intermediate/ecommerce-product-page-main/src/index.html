@@ -59,40 +59,53 @@
   <main>
     <article class="product">
       <div class="product-container">
-        <section class="product-info">
-          <p class="product-brand">Sneaker Company</p>
-          <h1 class="product-title">Fall Limited Edition Sneakers</h1>
-          <p class="product-description">These low-profile sneakers are your perfect casual wear companion.
-            Featuring a
-            durable rubber outer sole, they'll withstand everything the weather can offer.</p>
-        </section>
-
-        <section class="product-pricing">
-          <div class="price-discount">
-            <p class="current-price">$125.00</p>
-            <p class="discount-badge">50%</p>
-          </div>
-          <p class="normal-price">$250.00</p>
-        </section>
-
-        <section class="product-actions">
-          <div class="quantity-selector">
-            <button class="btn btn-minus-quantity" type="button" aria-label="Decrease quantity">
-              <img src="./assets/icons/icon-minus.svg" alt="">
-            </button>
-
-            <span class="quantity-value" aria-live="polite">0</span>
-
-            <button class="btn btn-plus-quantity" type="button" aria-label="Increase quantity">
-              <img src="./assets/icons/icon-plus.svg" alt="">
-            </button>
+        <div class="carousel">
+          <div class="carousel-track">
+            <img src="./assets/images/image-product-1.jpg" alt="Slide 1">
+            <img src="./assets/images/image-product-2.jpg" alt="Slide 2">
+            <img src="./assets/images/image-product-3.jpg" alt="Slide 3">
+            <img src="./assets/images/image-product-4.jpg" alt="Slide 4">
           </div>
 
-          <button class="btn-add-cart" type="button">
-            <img src="./assets/icons/icon-cart.svg" alt="">
-            <span>Add to cart</span>
-          </button>
-        </section>
+          <button class="btn btn-prev"><img src="./assets/icons/icon-previous.svg" alt=""></button>
+          <button class="btn btn-next"><img src="./assets/icons/icon-next.svg" alt=""></button>
+        </div>
+        <div class="product-cart">
+          <section class="product-info">
+            <p class="product-brand">Sneaker Company</p>
+            <h1 class="product-title">Fall Limited Edition Sneakers</h1>
+            <p class="product-description">These low-profile sneakers are your perfect casual wear companion.
+              Featuring a
+              durable rubber outer sole, they'll withstand everything the weather can offer.</p>
+          </section>
+
+          <section class="product-pricing">
+            <div class="price-discount">
+              <p class="current-price">$125.00</p>
+              <p class="discount-badge">50%</p>
+            </div>
+            <p class="normal-price">$250.00</p>
+          </section>
+
+          <section class="product-actions">
+            <div class="quantity-selector">
+              <button class="btn btn-minus-quantity" type="button" aria-label="Decrease quantity">
+                <img src="./assets/icons/icon-minus.svg" alt="">
+              </button>
+
+              <span class="quantity-value" aria-live="polite">0</span>
+
+              <button class="btn btn-plus-quantity" type="button" aria-label="Increase quantity">
+                <img src="./assets/icons/icon-plus.svg" alt="">
+              </button>
+            </div>
+
+            <button class="btn-add-cart" type="button">
+              <img src="./assets/icons/icon-cart.svg" alt="">
+              <span>Add to cart</span>
+            </button>
+          </section>
+        </div>
       </div>
     </article>
   </main>

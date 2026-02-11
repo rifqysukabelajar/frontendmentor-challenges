@@ -65,6 +65,10 @@ body {
     line-height: 1.4;
 }
 
+body {
+    padding-bottom: var(--space-xl);
+}
+
 
 .header {
     position: fixed;
@@ -171,8 +175,15 @@ main {
 
 .product-container {
     display: grid;
-    gap: var(--space-md);
+    grid-template-columns: 1fr;
+}
+
+.product-cart {
     padding: var(--space-md);
+
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
 }
 
 .product-info {
@@ -271,6 +282,49 @@ main {
     height: 18px;
 }
 
+
+.carousel {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+}
+
+.carousel-track {
+    display: flex;
+    transition: transform 0.3s ease-in-out;
+}
+
+.carousel img {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+}
+
+.btn-prev,
+.btn-next {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: var(--White);
+    border: none;
+    padding: .875rem var(--space-sm);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+
+.btn-prev {
+    left: 10px;
+}
+
+.btn-next {
+    right: 10px;
+}
+
+
+
 @media (min-width: 55em) {
     .navbar {
         max-width: var(--container-sm);
@@ -336,7 +390,7 @@ main {
         margin: 0 auto;
     }
 
-    .content-container {
+    .product-container {
         padding: var(--space-md) 0;
     }
 }
