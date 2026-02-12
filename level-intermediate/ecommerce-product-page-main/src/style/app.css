@@ -65,6 +65,11 @@ a:focus-visible {
     outline-offset: 3px;
 }
 
+img {
+    max-width: 100%;
+    height: auto;
+}
+
 html,
 body {
     font-family: var(--font-family);
@@ -125,11 +130,16 @@ body {
     background-color: var(--White);
     transform: translateX(-100%);
     transition: transform 0.3s ease;
+
+    visibility: hidden;
+    pointer-events: none;
     z-index: var(--z-menu);
 }
 
 .navbar-menu.is-open {
     transform: translateX(0);
+    visibility: visible;
+    pointer-events: auto;
 }
 
 .navbar-links {

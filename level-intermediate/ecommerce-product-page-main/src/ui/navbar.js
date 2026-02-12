@@ -10,16 +10,14 @@ export function initNavbar() {
     navMenu.classList.add("is-open");
     overlay?.classList.add("is-visible");
     navOpen.setAttribute("aria-expanded", "true");
-    navOpen.style.display = "none";
-    document.body.style.overflow = "hidden";
+    document.body.classList.add("menu-open");
   }
 
   function closeNav() {
     navMenu.classList.remove("is-open");
     overlay?.classList.remove("is-visible");
-    navOpen.style.display = "block";
     navOpen.setAttribute("aria-expanded", "false");
-    document.body.style.overflow = "";
+    document.body.classList.remove("menu-open");
   }
 
   navOpen.addEventListener("click", () => openNav());
