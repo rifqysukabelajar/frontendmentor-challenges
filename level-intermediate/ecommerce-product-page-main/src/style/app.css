@@ -330,10 +330,15 @@ main {
     transition: transform 0.3s ease-in-out;
 }
 
-.carousel img {
+.carousel-track picture {
+    flex: 0 0 100%;
+}
+
+.carousel-track img {
     width: 100%;
     aspect-ratio: 1 / 1;
     object-fit: cover;
+    object-position: center;
 }
 
 .btn-prev,
@@ -343,7 +348,7 @@ main {
     transform: translateY(-50%);
     background: var(--primary-pale-orange);
     border: none;
-    padding: .875rem var(--space-sm);
+    padding: .75rem var(--space-sm);
     border-radius: 50%;
     display: flex;
     align-items: center;
