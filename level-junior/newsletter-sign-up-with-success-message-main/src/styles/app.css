@@ -16,7 +16,6 @@
     --grey: hsl(0, 0%, 58%);
     --white: hsl(0, 0%, 100%);
 
-    --space-btn-y: 0.75rem;
     --space-xs: clamp(0.5rem, 0.6vw, 0.75rem);
     --space-sm: clamp(0.875rem, 0.9vw, 1.125rem);
     --space-md: clamp(1.25rem, 1.4vw, 1.5rem);
@@ -35,10 +34,117 @@
     box-sizing: border-box;
 }
 
+ul {
+    list-style: none;
+}
+
+label {
+    font-size: var(--fs-sm);
+}
+
+input,
+button {
+    padding: 1rem var(--space-md);
+    border-radius: var(--radius-md);
+}
+
+input {
+    border: 1px solid var(--grey);
+    font-size: var(--fs-base);
+}
+
+button {
+    border: none;
+    cursor: pointer;
+}
+
+input:focus {
+    outline: none;
+    border-color: var(--primary-red);
+    box-shadow: 0 0 0 3px hsl(4 100% 67% / 0.2);
+}
+
 html,
 body {
     font-family: var(--font-family);
     font-size: var(--fs-base);
     line-height: 1.4;
+}
+
+body {
+    min-height: 100vh;
+    padding-bottom: var(--space-md);
+}
+
+.newsletter__image img {
+    width: 100%;
+}
+
+.newsletter__content,
+.newsletter__header,
+.newsletter__feature,
+.newsletter__form,
+.group-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.newsletter__content {
+    gap: var(--space-lg);
+}
+
+.newsletter__header {
+    gap: var(--space-md);
+    margin-top: var(--space-lg);
+}
+
+.newsletter__header,
+.newsletter__feature {
+    padding: 0 var(--space-lg);
+}
+
+.newsletter__feature,
+.group-form {
+    gap: var(--space-xs);
+}
+
+.newsletter__feature li {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-sm);
+}
+
+.newsletter__form {
+    padding: var(--space-xs) var(--space-lg);
+    gap: var(--space-md);
+}
+
+label,
+.btn-subscribe {
+    font-weight: 700;
+}
+
+.btn-subscribe {
+    background-color: var(--blue-800);
+    color: var(--white);
+    transition:
+        background-color .25s ease,
+        box-shadow .25s ease,
+        transform .25s ease;
+}
+
+.btn-subscribe:focus-visible {
+    outline: 2px solid var(--primary-red);
+    outline-offset: 2px;
+}
+
+.btn-subscribe:hover {
+    background-color: var(--primary-red);
+    box-shadow: 0 .25rem 1rem rgba(0, 0, 0, 0.25);
+    transform: scale(1.0125);
+}
+
+.btn-subscribe:active {
+    opacity: .5;
 }
 
