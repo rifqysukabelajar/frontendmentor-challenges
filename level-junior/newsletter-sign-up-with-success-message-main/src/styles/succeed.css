@@ -1,0 +1,98 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+}
+
+.login {
+    min-height: 100dvh;
+    display: flex;
+    justify-content: center;
+}
+
+.login__succeed {
+    background: #fff;
+    padding: 8rem 1.5rem 2.5rem;
+
+    display: flex;
+    flex-direction: column;
+    gap: clamp(1.25rem, 1.4vw, 1.5rem);
+}
+
+.login__image {
+    font-size: 2.75rem;
+}
+
+.login__image svg {
+    width: 1em;
+    height: 1em;
+}
+
+.login-title {
+    font-size: clamp(2.5rem, 4vw, 3rem);
+    color: #1c1c2e;
+    line-height: 1.1;
+    margin-bottom: clamp(1.25rem, 1.4vw, 1.5rem);
+}
+
+.login-confirmation {
+    font-size: clamp(1rem, 1.2vw, 1.125rem);
+    line-height: 1.6;
+}
+
+.btn-dismiss {
+    /* (margin-top) yang bikin button auto kebawah */
+    margin-top: auto;
+    padding: clamp(1rem, 0.9vw, 1.125rem);
+    border: none;
+    border-radius: .5rem;
+    background: hsl(234, 29%, 20%);
+    color: #fff;
+    font-weight: 600;
+    cursor: pointer;
+    transition:
+        background .2s ease,
+        opacity .1s ease,
+        box-shadow .2s ease;
+}
+
+.btn-dismiss:hover {
+    background: linear-gradient(135deg,
+            hsl(4, 100%, 67%) 0%,
+            hsl(11, 100%, 60%) 100%);
+    box-shadow: 0 12px 24px hsl(4 100% 67% / .35);
+}
+
+.btn-dismiss:active {
+    transform: scale(0.98);
+    opacity: .5;
+}
+
+.btn-dismiss:focus-visible {
+    outline: 3px solid #8ea8ff;
+    outline-offset: 2px;
+}
+
+@media (min-width: 600px) {
+    body {
+        background: hsl(235, 18%, 26%);
+    }
+
+    .login {
+        align-items: center;
+    }
+
+    .login__succeed {
+        max-width: 420px;
+        padding: clamp(2.5rem, 3vw, 3rem) clamp(3rem, 4vw, 4rem);
+        border-radius: 1.75rem;
+    }
+
+    .login-confirmation {
+        font-size: clamp(0.875rem, 1vw, 1rem);
+    }
+}
