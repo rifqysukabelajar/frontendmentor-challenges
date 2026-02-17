@@ -21,6 +21,7 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
+    window.location.href = "succeed.html";
     addEmail(value);
     inputEmail.value = "";
   }
@@ -28,6 +29,8 @@ document.addEventListener("DOMContentLoaded", () => {
   function isValidEmail(value) {
     return value.includes("@");
   }
+
+  function isSuccess() {}
 
   function addEmail(email) {
     emailStore.users.push({
