@@ -151,20 +151,25 @@ label,
     background-color: var(--blue-800);
     color: var(--white);
     transition:
-        background-color .25s ease,
+        background .25s ease,
         box-shadow .25s ease,
-        transform .25s ease;
+        transform .25s ease,
+        opacity .25s ease;
 }
 
+
 .btn-subscribe:hover {
-    background-color: var(--primary-red);
-    box-shadow: 0 .25rem 1rem rgba(0, 0, 0, 0.25);
-    transform: scale(1.02);
+    background: linear-gradient(135deg,
+            hsl(4, 100%, 67%) 0%,
+            hsl(11, 100%, 60%) 100%);
+    box-shadow: 0 12px 24px hsl(4 100% 67% / .35);
 }
 
 .btn-subscribe:active {
+    transform: scale(0.98);
     opacity: .5;
 }
+
 
 .group-form {
     position: relative;
@@ -247,7 +252,7 @@ label,
 
     .newsletter__image img {
         width: 100%;
-        height: 100%;       
+        height: 100%;
         border-radius: .75rem;
         object-fit: cover;
         display: block;
