@@ -39,3 +39,8 @@ npm-debug.log*
 .DS_Store
 Thumbs.db
 
+# Frontend Mentor files
+/design
+AGENTS.md
+CLAUDE.md
+style-guide.md
