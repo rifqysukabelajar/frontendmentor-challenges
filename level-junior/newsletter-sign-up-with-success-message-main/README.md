@@ -2,7 +2,7 @@
 
 [![Design preview for the Newsletter sign up coding challenge](./src/assets/images/preview-desktop.webp)](https://rifqysukabelajar.github.io/frontendmentor-challenges/level-junior/newsletter-sign-up-with-success-message-main/index.html)
 
-[![Design preview for the Newsletter sign up coding challenge](src\assets\images\preview-mobile.webp)](https://rifqysukabelajar.github.io/frontendmentor-challenges/level-junior/newsletter-sign-up-with-success-message-main/index.html)
+[![Design preview for the Newsletter sign up coding challenge](./src/assets/images/preview-mobile.webp)](https://rifqysukabelajar.github.io/frontendmentor-challenges/level-junior/newsletter-sign-up-with-success-message-main/index.html)
 
 ## Welcome! 👋
 
