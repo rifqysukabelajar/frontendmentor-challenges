@@ -112,7 +112,7 @@ body {
 }
 
 .newsletter__content {
-    gap: var(--space-lg);
+    gap: var(--space-xs);
 }
 
 .newsletter__header {
@@ -127,8 +127,15 @@ body {
 
 .newsletter__feature,
 .group-form {
-    padding-top: var(--space-lg);
     gap: var(--space-xs);
+}
+
+.newsletter__feature {
+    padding-top: var(--space-md);
+}
+
+.group-form {
+    padding-top: var(--space-lg);
 }
 
 .newsletter__feature li {
